@@ -1,6 +1,16 @@
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.Random;
-import javax.swing.*;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class DiceRollerGUI extends JPanel {
     private DiePanel[] dicePanels;

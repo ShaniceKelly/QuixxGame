@@ -1,0 +1,74 @@
+name: Java CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+    
+    - name: Run tests
+      run: mvn test
+    
+    - name: Generate test report
+      run: mvn surefire-report:report
+      
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: target/surefire-reports
+        
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+    
+    - name: Build and analyze
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: mvn verify
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: package
+        path: target/*.jar
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/download-artifact@v3
+      with:
+        name: package
+        
+    - name: Set up deployment environment
+      run: |
+        echo "Setting up deployment environment"
+        # Add your deployment setup commands here
+        
+    - name: Deploy to production
+      run: |
+        echo "Deploying to production"
+        # Add your deployment commands here

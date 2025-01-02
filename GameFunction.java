@@ -21,6 +21,7 @@ public final class GameFunction extends JPanel {
     private final JFrame parentFrame; // Add reference to parent frame
 
     public GameFunction(JFrame parentFrame, GameState loadedState) {
+        
         this.parentFrame = parentFrame;
         setBorder(BorderFactory.createTitledBorder("Score Card"));
         setLayout(new BorderLayout());

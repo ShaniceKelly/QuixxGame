@@ -15,7 +15,8 @@
         <junit.version>5.9.2</junit.version>
     </properties>
 
-    <!-- <dependencies>
+    <dependencies>
+        <!-- JUnit Jupiter API for testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -23,15 +24,19 @@
             <scope>test</scope>
         </dependency>
         
+        <!-- JUnit Jupiter Engine for testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-    </dependencies> -->
+    </dependencies>
 
     <build>
+        <!-- Specify source directory if not using standard Maven structure -->
+        <sourceDirectory>${project.basedir}</sourceDirectory>
+        
         <plugins>
             <!-- Maven Compiler Plugin -->
             <plugin>
@@ -44,37 +49,26 @@
                 </configuration>
             </plugin>
 
-            <!-- Maven Surefire Plugin for running tests -->
-            <!-- <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
-            </plugin> -->
-
-            <!-- Maven Assembly Plugin for creating executable jar -->
+            <!-- Maven JAR Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.6.0</version>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
                 <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.quixx.Quixx</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>Quixx</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
+            </plugin>
+
+            <!-- Maven Surefire Plugin for running tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.1.2</version>
             </plugin>
         </plugins>
     </build>
